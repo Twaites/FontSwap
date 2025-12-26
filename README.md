@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Font Swap
+> **Live Font Preview & Replacement Tool**
+
+[Live Demo](https://fontswap.twaites.com)
+
+Font Swap is a powerful developer tool that allows you to instantly preview and swap Google Fonts on any live websites. Analyze typography, test new font combinations, and visualize changes in real-time without writing a single line of CSS.
+
+
+
+## Features
+*   **Live URL Proxy**: Load any website (handling CORS and rewriting assets automatically).
+*   **Font Detection**: Automatically identifies all fonts currently used on the page.
+*   **Smart Swapping**: Swap any detected font with the entire Google Fonts library.
+*   **Advanced Filtering**: Sort fonts by Popularity, Trending, Newest, or Name. Filter by categories (Serif, Sans-serif, etc.).
+*   **Link Interception**: Automatically disables link navigation within the preview to keep the focus on typography.
+*   **Performance Optimized**: Caches font data and lazy-loads font styles for maximum speed.
+*   **Security**: Validates URLs, blocks IP addresses, and prevents malicious navigation.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to run Font Swap locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
+*   Node.js (v18 or higher)
+*   npm
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/twaites/font-swap.git
+    cd font-swap
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-## Learn More
+3.  **Configure Environment Variables**
+    Create a `.env.local` file in the root directory and add your Google Fonts API Key.
+    ```bash
+    # Get a key at https://developers.google.com/fonts/docs/developer_api
+    GOOGLE_FONT_API_KEY=your_api_key_here
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+4.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5.  Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technology Stack
+*   **Framework**: Next.js 16 (App Router)
+*   **Styling**: TailwindCSS
+*   **Proxy Logic**: Native `fetch` + `cheerio` for HTML/CSS rewriting.
+*   **Icons**: Lucide React
+*   **Components**: Key primitives from Radix UI.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
