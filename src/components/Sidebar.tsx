@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { GoogleFont, FontMapping } from '@/types';
-import { Highlighter, RefreshCw, RotateCw, Check, ChevronDown, Filter, ArrowDownWideNarrow, TrendingUp, Calendar, ArrowDownAZ, Star, Search, Eye, EyeOff } from 'lucide-react';
+import { Highlighter, RefreshCw, RotateCw, Check, ChevronDown, Filter, ArrowDownWideNarrow, TrendingUp, Calendar, ArrowDownAZ, Star, Search, Eye, EyeOff, X } from 'lucide-react';
 import * as Select from '@radix-ui/react-select';
 import * as Popover from '@radix-ui/react-popover';
 import * as Checkbox from '@radix-ui/react-checkbox';
@@ -346,7 +346,10 @@ const FontRow = ({
 
                 <Select.Root
                     value={isCompareMode ? (lastReplacementRef.current || 'original-font-reset') : currentValue}
-                    onValueChange={(val) => onMappingChange(fontName, val === 'original-font-reset' ? '' : val)}
+                    onValueChange={(val) => {
+                        setIsCompareMode(false);
+                        onMappingChange(fontName, val === 'original-font-reset' ? '' : val);
+                    }}
                 >
                     <Select.Trigger className="w-full bg-[var(--bg-main)] text-[var(--text-main)] text-sm rounded-lg border border-[var(--border)] p-2.5 flex items-center justify-between outline-none focus:ring-2 focus:ring-[var(--accent)] hover:border-[var(--accent-light)] transition-all data-[placeholder]:text-[var(--text-secondary)]"
                         style={(isCompareMode ? lastReplacementRef.current : mapping.replacement) ? { fontFamily: (isCompareMode ? lastReplacementRef.current : mapping.replacement) } : {}}
