@@ -1,6 +1,3 @@
-
-import * as cheerio from 'cheerio';
-
 export const createUrlRewriter = (baseUrl: URL) => {
     return (url: string) => {
         if (!url) return url;
@@ -14,7 +11,7 @@ export const createUrlRewriter = (baseUrl: URL) => {
             // Handle relative URLs
             const resolved = new URL(url, baseUrl).toString();
             return `/api/proxy?url=${encodeURIComponent(resolved)}`;
-        } catch (e) {
+        } catch (_) {
             return url;
         }
     };

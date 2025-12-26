@@ -23,6 +23,12 @@ export async function GET() {
       throw new Error('Failed to fetch from Google Fonts API');
     }
 
+    interface GoogleFontItem {
+        family: string;
+        // other fields we don't strictly need to type fully for this scrape
+        [key: string]: unknown;
+    }
+
     const [popData, trendData, dateData] = await Promise.all([
         popRes.json(),
         trendRes.json(),
@@ -30,11 +36,11 @@ export async function GET() {
     ]);
 
     // Create Rank Maps
-    const trendingMap = new Map(trendData.items.map((item: any, index: number) => [item.family, index]));
-    const dateMap = new Map(dateData.items.map((item: any, index: number) => [item.family, index]));
+    const trendingMap = new Map((trendData.items as GoogleFontItem[]).map((item, index) => [item.family, index]));
+    const dateMap = new Map((dateData.items as GoogleFontItem[]).map((item, index) => [item.family, index]));
 
     // Merge Ranks into the main list (Popularity default)
-    const enrichedFonts = popData.items.map((font: any, index: number) => ({
+    const enrichedFonts = (popData.items as GoogleFontItem[]).map((font, index) => ({
         ...font,
         popularityRank: index,
         trendingRank: trendingMap.get(font.family) ?? 9999, // Fallback if missing

@@ -438,7 +438,7 @@ export default function Sidebar({
             }
 
             onUrlSubmit(finalUrl);
-        } catch (e) {
+        } catch (_) {
             setError('Please enter a valid URL');
         }
     };

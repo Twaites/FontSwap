@@ -54,7 +54,7 @@ Follow these steps to run Font Swap locally.
 ## Technology Stack
 *   **Framework**: Next.js 16 (App Router)
 *   **Styling**: TailwindCSS
-*   **Proxy Logic**: Native `fetch` + `cheerio` for HTML/CSS rewriting.
+*   **Proxy Logic**: Custom implementation for HTML/CSS rewriting and asset handling.
 *   **Icons**: Lucide React
 *   **Components**: Key primitives from Radix UI.
 
