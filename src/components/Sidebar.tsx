@@ -171,7 +171,7 @@ const FontRow = ({
 
     return (
         <div
-            className={`bg-[var(--bg-secondary)] p-3 rounded-xl border transition-all group shadow-sm ${mapping.active ? 'border-l-4' : 'border border-[var(--border)] hover:border-[var(--accent-light)]'}`}
+            className={`bg-[var(--bg-secondary)] p-3 rounded-md border transition-all group shadow-sm ${mapping.active ? 'border-l-4' : 'border border-[var(--border)] hover:border-[var(--accent-light)]'}`}
             style={mapping.active ? {
                 borderColor: mapping.color,
                 backgroundColor: `${mapping.color}10`,
