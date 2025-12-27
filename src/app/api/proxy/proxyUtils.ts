@@ -136,6 +136,12 @@ export const getInjectorScript = (baseUrl: string) => `
               el.dataset.fontSwapOriginal = primaryFont;
           }
           
+          // Prevent double counting nested elements (merge with parent count if same font)
+          const trackedAncestor = el.parentElement ? el.parentElement.closest('[data-font-swap-original]') : null;
+          if (trackedAncestor && trackedAncestor.dataset.fontSwapOriginal === primaryFont) {
+              return;
+          }
+
           if(!fonts[primaryFont]) {
               fonts[primaryFont] = 0;
           }

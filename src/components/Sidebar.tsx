@@ -93,6 +93,8 @@ const FontRow = ({
             family: gf.family
         }));
 
+
+
         // Always include "Default" option at the top
         return [
             { value: 'original-font-reset', label: `${fontName} (Default)`, family: '' },
@@ -230,7 +232,7 @@ const FontRow = ({
                     <Popover.Root open={isSortOpen} onOpenChange={setIsSortOpen}>
                         <Popover.Trigger asChild>
                             <button
-                                className={`p-1 rounded hover:bg-[var(--bg-main)] transition-colors ${sortBy !== 'popular' ? 'text-[var(--accent)]' : 'text-[var(--text-secondary)]'}`}
+                                className="p-1 rounded hover:bg-[var(--bg-main)] transition-colors text-[var(--text-secondary)]"
                                 title="Sort Fonts"
                             >
                                 <ArrowDownWideNarrow className="w-3.5 h-3.5" />
@@ -399,8 +401,10 @@ const FontRow = ({
                         onMappingChange(fontName, val === 'original-font-reset' ? '' : val);
                     }}
                 >
-                    <Select.Trigger className="w-full bg-[var(--bg-main)] text-[var(--text-main)] text-sm rounded-lg border border-[var(--border)] p-2 flex items-center justify-between outline-none focus:ring-2 focus:ring-[var(--accent)] hover:border-[var(--accent-light)] transition-all data-[placeholder]:text-[var(--text-secondary)]"
-                        style={(isCompareMode ? lastReplacementRef.current : mapping.replacement) ? { fontFamily: (isCompareMode ? lastReplacementRef.current : mapping.replacement) } : {}}
+                    <Select.Trigger
+                        key={isCompareMode ? (lastReplacementRef.current || 'default') : (mapping.replacement || 'default')}
+                        className="w-full bg-[var(--bg-main)] text-[var(--text-main)] text-sm rounded-lg border border-[var(--border)] p-2 flex items-center justify-between outline-none focus:ring-2 focus:ring-[var(--accent)] hover:border-[var(--accent-light)] transition-all data-[placeholder]:text-[var(--text-secondary)]"
+                        style={(isCompareMode ? lastReplacementRef.current : mapping.replacement) ? { fontFamily: `"${isCompareMode ? lastReplacementRef.current : mapping.replacement}"` } : {}}
                     >
                         <span
                             className="flex-1 min-w-0 truncate text-left mr-2"
@@ -426,7 +430,7 @@ const FontRow = ({
                                         key={option.value}
                                         value={option.value}
                                         className="relative flex items-center h-9 px-8 text-sm leading-none text-[var(--text-main)] rounded-[3px] select-none data-[disabled]:text-slate-500 data-[highlighted]:bg-[var(--accent)] data-[highlighted]:text-white outline-none cursor-pointer overflow-hidden"
-                                        style={option.family ? { fontFamily: option.family } : {}}
+                                        style={option.family ? { fontFamily: `"${option.family}"` } : {}}
                                     >
                                         <Select.ItemText>
                                             <span className="block truncate w-full" title={option.label}>

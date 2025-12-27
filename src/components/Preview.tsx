@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ExternalLink } from 'lucide-react';
 
 interface PreviewProps {
@@ -9,6 +9,12 @@ interface PreviewProps {
 }
 
 export default function Preview({ iframeSrc, iframeRef }: PreviewProps) {
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        setIsLoaded(false);
+    }, [iframeSrc]);
+
     return (
         <div className="flex-1 flex flex-col h-full bg-[var(--bg-main)] relative min-w-0 transition-colors duration-300">
             {/* Preview Area */}
@@ -22,13 +28,22 @@ export default function Preview({ iframeSrc, iframeRef }: PreviewProps) {
                         <p className="max-w-md text-center mt-2 opacity-70">Use the sidebar to load a website and start experimenting with fonts.</p>
                     </div>
                 ) : (
-                    <iframe
-                        ref={iframeRef}
-                        src={iframeSrc}
-                        className="w-full h-full border-0 bg-white"
-                        sandbox="allow-scripts allow-same-origin allow-forms"
-                        title="Preview"
-                    />
+                    <>
+                        {!isLoaded && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[var(--bg-secondary)]/50 backdrop-blur-sm z-10 p-4">
+                                <div className="w-12 h-12 rounded-full border-4 border-[var(--border)] border-t-[var(--accent)] animate-spin mb-4"></div>
+                                <p className="text-sm font-medium text-[var(--text-secondary)] animate-pulse">Loading Website...</p>
+                            </div>
+                        )}
+                        <iframe
+                            ref={iframeRef}
+                            src={iframeSrc}
+                            className={`w-full h-full border-0 bg-white transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                            sandbox="allow-scripts allow-same-origin allow-forms"
+                            title="Preview"
+                            onLoad={() => setIsLoaded(true)}
+                        />
+                    </>
                 )}
             </div>
         </div>
