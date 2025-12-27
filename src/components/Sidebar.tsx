@@ -580,7 +580,7 @@ export default function Sidebar({
             <div className="p-3 border-t border-[var(--border)] bg-[var(--bg-main)] text-[10px] text-[var(--text-secondary)] text-center uppercase tracking-widest font-semibold flex items-center justify-center gap-2">
                 <span>Font Swap</span>
                 <span className="text-[var(--border)]">•</span>
-                <span>Built by <a href="https://twaites.com" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">Twaites</a></span>
+                <span>Built by AI + <a href="https://twaites.com" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">Twaites</a></span>
             </div>
         </aside>
     );

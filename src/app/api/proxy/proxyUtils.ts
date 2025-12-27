@@ -91,8 +91,24 @@ export const getInjectorScript = (baseUrl: string) => `
        return false;
     }
 
+    function getAllElements(root) {
+        const elements = [];
+        // If root is a ShadowRoot, querySelectorAll works on it
+        const nodes = root.querySelectorAll ? root.querySelectorAll('*') : [];
+        
+        // Convert to array and iterate
+        Array.from(nodes).forEach(el => {
+             elements.push(el);
+             if (el.shadowRoot) {
+                 elements.push(...getAllElements(el.shadowRoot));
+             }
+        });
+        
+        return elements;
+    }
+
     function analyzeFonts() {
-      const allElements = document.querySelectorAll('body *');
+      const allElements = getAllElements(document.body);
       const fonts = {};
       
       // First pass tracking
@@ -153,7 +169,7 @@ export const getInjectorScript = (baseUrl: string) => `
 
     function applyHighlights(activeHighlights) {
        // 1. Clear all previous highlights
-       const all = document.querySelectorAll('*');
+       const all = getAllElements(document.body);
        all.forEach(el => {
            el.style.outline = '';
            el.style.backgroundColor = '';
@@ -164,7 +180,7 @@ export const getInjectorScript = (baseUrl: string) => `
        if (!activeHighlights || activeHighlights.length === 0) return;
 
        // 2. Apply new highlights
-       const allElements = document.querySelectorAll('body *');
+       const allElements = getAllElements(document.body);
        allElements.forEach(el => {
            if (!shouldTrack(el)) return;
            
@@ -201,7 +217,7 @@ export const getInjectorScript = (baseUrl: string) => `
            activeSwaps.add(newFontFamily);
        }
 
-       const allElements = document.querySelectorAll('body *');
+       const allElements = getAllElements(document.body);
        allElements.forEach(el => {
           if (!shouldTrack(el)) return;
 
