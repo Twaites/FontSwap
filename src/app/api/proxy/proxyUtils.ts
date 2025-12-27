@@ -17,9 +17,51 @@ export const createUrlRewriter = (baseUrl: URL) => {
     };
 };
 
-export const INJECTOR_SCRIPT = `
+export const getInjectorScript = (baseUrl: string) => `
 <script>
   (function() {
+    const TARGET_BASE = "${baseUrl}";
+
+    // --- NETWORK INTERCEPTION (SPA Support) ---
+    // Rewrite fetch requests to go through proxy
+    const originalFetch = window.fetch;
+    window.fetch = function(input, init) {
+        let url = input;
+        if (typeof input === 'string') {
+            try {
+                // Resolve relative paths against the original target base
+                const resolved = new URL(input, TARGET_BASE).href;
+                url = '/api/proxy?url=' + encodeURIComponent(resolved);
+            } catch (e) {
+                // Invalid URL, let it pass
+            }
+        } else if (input instanceof Request) {
+             // Clone request with new URL? Harder. 
+             // Simplification: Most apps use string. 
+             // If we fallback to original, it fails, but avoids crash.
+             try {
+                const resolved = new URL(input.url, TARGET_BASE).href;
+                // We recreate the Request if possible, or just pass the string url if init matches?
+                // Often safer to just pass the string URL if the app allows it.
+                url = '/api/proxy?url=' + encodeURIComponent(resolved);
+            } catch (e) {}
+        }
+        return originalFetch(url, init);
+    };
+
+    // Rewrite XHR requests
+    const originalOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+        if (typeof url === 'string') {
+            try {
+                const resolved = new URL(url, TARGET_BASE).href;
+                url = '/api/proxy?url=' + encodeURIComponent(resolved);
+            } catch (e) {}
+        }
+        return originalOpen.call(this, method, url, ...rest);
+    };
+    // ------------------------------------------
+
     const originalFonts = new Map();
     const nativeFonts = new Set();
     const activeSwaps = new Set();

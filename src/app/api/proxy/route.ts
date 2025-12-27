@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
-import { createUrlRewriter, INJECTOR_SCRIPT, rewriteCssIds } from './proxyUtils';
+import { createUrlRewriter, getInjectorScript, rewriteCssIds } from './proxyUtils';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -96,8 +96,8 @@ export async function GET(request: NextRequest) {
          }
     });
 
-    // 2. Inject our client-side interaction script
-    $('body').append(INJECTOR_SCRIPT);
+    // 2. Inject our client-side interaction script (with base URL for SPA fetch support)
+    $('body').append(getInjectorScript(targetUrl));
 
     return new NextResponse($.html(), {
       status: 200,
