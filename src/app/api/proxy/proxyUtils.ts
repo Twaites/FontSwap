@@ -20,7 +20,7 @@ export const createUrlRewriter = (baseUrl: URL) => {
 export const getInjectorScript = (baseUrl: string) => `
 <script>
   (function() {
-    const TARGET_BASE = "${baseUrl}";
+    const TARGET_BASE = ${JSON.stringify(baseUrl)};
 
     // --- NETWORK INTERCEPTION (SPA Support) ---
     // Rewrite fetch requests to go through proxy
